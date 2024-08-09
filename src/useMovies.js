@@ -1,6 +1,4 @@
-import { useState,useEffect } from "react";
-
-const KEY = "cdf20efb";
+import { useState, useEffect } from "react";
 
 export function useMovies(query) {
   const [movies, setMovies] = useState([]);
@@ -9,14 +7,13 @@ export function useMovies(query) {
   const [error, setError] = useState("");
   useEffect(
     function () {
-        
       const controller = new AbortController();
       async function fetchMovies() {
         try {
           SetIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}
+            `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}
                 &s=${query}`,
             { signal: controller.signal }
           );
@@ -44,7 +41,7 @@ export function useMovies(query) {
         setError("");
         return;
       }
-    //   handleCloseMovie();
+      //   handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -53,5 +50,5 @@ export function useMovies(query) {
     },
     [query]
   );
-  return {movies,isLoading,error};
+  return { movies, isLoading, error };
 }
