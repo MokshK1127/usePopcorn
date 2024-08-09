@@ -7,8 +7,6 @@ import { useKey } from "./useKey";
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "cdf20efb";
-
 export default function App() {
   const [query, setQuery] = useState("");
 
@@ -111,14 +109,12 @@ function Logo() {
 
 function Search({ query, setQuery }) {
   const inputEl = useRef(null);
-  useKey("Enter",function(){
-    
-      if (document.activeElement === inputEl.current) {
-        return;
-      }
-      inputEl.current.focus();
-      setQuery("");
-    
+  useKey("Enter", function () {
+    if (document.activeElement === inputEl.current) {
+      return;
+    }
+    inputEl.current.focus();
+    setQuery("");
   });
   // useEffect(
   //   function () {
@@ -276,7 +272,7 @@ function MovieDetails({ SelectedId, onCloseMovie, onAddWatched, watched }) {
     async function getMovieDetails() {
       setIsLoading(true);
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${KEY}&i=${SelectedId}`
+        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&i=${SelectedId}`
       );
       const data = await res.json();
       setMovie(data);
